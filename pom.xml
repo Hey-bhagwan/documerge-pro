@@ -42,7 +42,7 @@
                 <option>-Dfile.encoding=UTF-8</option>
                 <!-- ✅ CONSISTENT: Use classpath approach for all platforms -->
                 <option>-cp</option>
-                <option>documerge-pro-1.0-SNAPSHOT.jar;lib/*</option>
+                <option>documerge-pro-1.0-SNAPSHOT.jar:lib/*</option>
               </javaOptions>
               <!-- ✅ CORRECTED: No JavaFX modules for non-modular approach -->
               <addModules>
