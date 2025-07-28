@@ -30,7 +30,14 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
         
-    # ✅ NEW: Set up Google Sheets credentials from environment variable
+    # ✅ NEW: Install JavaFX SDK for Windows
+    - name: Install JavaFX SDK for Windows
+      run: |
+        Invoke-WebRequest -Uri "https://download2.gluonhq.com/openjfx/19/openjfx-19_windows-x64_bin-sdk.zip" -OutFile "javafx.zip"
+        Expand-Archive -Path "javafx.zip" -DestinationPath "javafx"
+        dir javafx
+      shell: powershell
+        
     - name: Set up Google Sheets credentials
       run: |
         echo '${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}' > service-account-key.json
@@ -40,11 +47,13 @@ jobs:
       run: mvn clean package -DskipTests
       env:
         GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+        PATH_TO_FX: ${{ github.workspace }}/javafx/javafx-sdk-19/lib
       
     - name: Create Windows installer
-      run: mvn jpackage:jpackage
+      run: mvn jpackage:jpackage -Pwindows
       env:
         GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+        PATH_TO_FX: ${{ github.workspace }}/javafx/javafx-sdk-19/lib
       
     - name: Upload Windows installer
       uses: actions/upload-artifact@v4
@@ -74,26 +83,35 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
         
+    # ✅ UPDATED: Install JavaFX SDK for proper jpackage integration
+    - name: Install JavaFX SDK
+      run: |
+        wget https://download2.gluonhq.com/openjfx/19/openjfx-19_linux-x64_bin-sdk.zip
+        unzip openjfx-19_linux-x64_bin-sdk.zip
+        sudo mkdir -p /opt/javafx
+        sudo mv javafx-sdk-19 /opt/javafx/
+        ls -la /opt/javafx/javafx-sdk-19/lib/
+        
     - name: Install packaging tools
       run: |
         sudo apt-get update
         sudo apt-get install -y fakeroot
         
-    # ✅ NEW: Set up Google Sheets credentials from environment variable
     - name: Set up Google Sheets credentials
-      run: |
-        echo '${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}' > service-account-key.json
+      run: echo '${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}' > service-account-key.json
         
     - name: Build with Maven
       run: mvn clean package -DskipTests
       env:
         GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+        PATH_TO_FX: /opt/javafx/javafx-sdk-19/lib
       
-    - name: Create Linux installer
-      run: mvn jpackage:jpackage
+    - name: Create Linux installer with JavaFX
+      run: mvn jpackage:jpackage -Plinux-deb
       env:
         GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
-      
+        PATH_TO_FX: /opt/javafx/javafx-sdk-19/lib
+        
     - name: Upload Linux installer
       uses: actions/upload-artifact@v4
       with:
@@ -122,7 +140,15 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
         
-    # ✅ NEW: Set up Google Sheets credentials from environment variable
+    # ✅ NEW: Install JavaFX SDK for macOS
+    - name: Install JavaFX SDK for macOS
+      run: |
+        wget https://download2.gluonhq.com/openjfx/19/openjfx-19_osx-x64_bin-sdk.zip
+        unzip openjfx-19_osx-x64_bin-sdk.zip
+        sudo mkdir -p /opt/javafx
+        sudo mv javafx-sdk-19 /opt/javafx/
+        ls -la /opt/javafx/javafx-sdk-19/lib/
+        
     - name: Set up Google Sheets credentials
       run: |
         echo '${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}' > service-account-key.json
@@ -131,11 +157,13 @@ jobs:
       run: mvn clean package -DskipTests
       env:
         GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+        PATH_TO_FX: /opt/javafx/javafx-sdk-19/lib
       
     - name: Create macOS installer
-      run: mvn jpackage:jpackage
+      run: mvn jpackage:jpackage -Pmacos
       env:
         GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+        PATH_TO_FX: /opt/javafx/javafx-sdk-19/lib
       
     - name: Upload macOS installer
       uses: actions/upload-artifact@v4
