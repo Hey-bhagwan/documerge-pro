@@ -1,0 +1,32 @@
+# Build artifacts
+target/
+*.class
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Credentials and secrets
+credentials.json
+service-account-key.json
+src/main/resources/service-account-key.json
+src/main/resources/credentials.json
+*.key
+*.pem
+*.p12
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.bak
+tokens/

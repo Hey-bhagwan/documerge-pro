@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.documentgenerator</groupId>
+  <artifactId>documerge-pro</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>DocuMerge Pro</name>
+  <description>Professional document generation from Excel/Google Sheets data</description>
+
+  <!-- FIXME change it to the project's website -->
+  <url>http://www.example.com</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+  </properties>
+
+  <profiles>
+    <!-- Linux DEB Package -->
+    <profile>
+        <id>linux-deb</id>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.panteleyev</groupId>
+                    <artifactId>jpackage-maven-plugin</artifactId>
+                    <version>1.6.0</version>
+                    <configuration>
+                        <name>documerge-pro</name>
+                        <appVersion>1.0</appVersion>
+                        <vendor>UncharteD</vendor>
+                        <destination>target/dist</destination>
+                        <input>target</input>
+                        <mainJar>documerge-pro-1.0-SNAPSHOT.jar</mainJar>
+                        <mainClass>com.documentgenerator.MainApp</mainClass>
+                        <javaOptions>
+                            <option>-Dfile.encoding=UTF-8</option>
+                        </javaOptions>
+                        <!-- Linux-specific options -->
+                        <linuxPackageName>documerge-pro</linuxPackageName>
+                        <linuxDebMaintainer>ayushupa29@gmail.com</linuxDebMaintainer>
+                        <linuxMenuGroup>Office</linuxMenuGroup>
+                        <linuxShortcut>true</linuxShortcut>
+                        <icon>src/main/resources/icon-64.png</icon>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
+</profiles>
+
+
+  <dependencies>
+    <!-- Testing -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.10.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Apache POI for Excel/Word processing -->
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>5.2.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+      <version>5.2.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-scratchpad</artifactId>
+      <version>5.2.4</version>
+    </dependency>
+
+    <!-- JavaFX for GUI -->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-controls</artifactId>
+      <version>19</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-fxml</artifactId>
+      <version>19</version>
+    </dependency>
+
+    <!-- Google Sheets API -->
+    <dependency>
+      <groupId>com.google.apis</groupId>
+      <artifactId>google-api-services-sheets</artifactId>
+      <version>v4-rev20220927-2.0.0</version>
+    </dependency>
+
+    <!-- Google Authentication (Service Account) -->
+    <dependency>
+      <groupId>com.google.auth</groupId>
+      <artifactId>google-auth-library-oauth2-http</artifactId>
+      <version>1.37.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.auth</groupId>
+      <artifactId>google-auth-library-credentials</artifactId>
+      <version>1.37.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.api-client</groupId>
+      <artifactId>google-api-client</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to
+      parent pom) -->
+      <plugins>
+        <!-- clean lifecycle, see
+        https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <!-- default lifecycle, jar packaging: see
+        https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.0.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.22.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.0.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.2</version>
+        </plugin>
+        <!-- site lifecycle, see
+        https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
+        <plugin>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.7.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>3.0.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-maven-plugin</artifactId>
+          <version>0.0.8</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>com.documentgenerator.MainApp</mainClass>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.2.2</version>
+        <configuration>
+            <outputDirectory>target/jmods</outputDirectory>
+        </configuration>
+    </plugin>
+    
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+            <execution>
+                <id>copy-dependencies</id>
+                <phase>package</phase>
+                <goals>
+                    <goal>copy-dependencies</goal>
+                </goals>
+                <configuration>
+                    <includeScope>runtime</includeScope>
+                    <outputDirectory>target/jmods</outputDirectory>
+                </configuration>
+            </execution>
+        </executions>
+    </plugin>
+    
+      <plugin>
+        <groupId>org.panteleyev</groupId>
+        <artifactId>jpackage-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <configuration>
+            <name>DocuMerge Pro</name>
+            <appVersion>1.0</appVersion>
+            <vendor>UncharteD</vendor>
+            <destination>target/dist</destination>
+            <input>target/jmods</input> 
+            <mainJar>documerge-pro-1.0-SNAPSHOT.jar</mainJar>
+            <mainClass>com.documentgenerator.MainApp</mainClass>
+            <javaOptions>
+                <option>-Dfile.encoding=UTF-8</option>
+            </javaOptions>
+            <!-- Windows specific -->
+            <winDirChooser>true</winDirChooser>
+            <winMenu>true</winMenu>
+            <winShortcut>true</winShortcut>
+            <winUpgradeUuid>12345678-1234-1234-1234-123456789012</winUpgradeUuid>
+        </configuration>
+    </plugin>
+    
+    </plugins>
+  </build>
+</project>
