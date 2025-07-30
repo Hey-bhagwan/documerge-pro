@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.documentgenerator</groupId>
@@ -20,6 +20,7 @@
   </properties>
 
   <profiles>
+
     <!-- Windows Profile -->
     <profile>
       <id>windows</id>
@@ -35,19 +36,24 @@
               <appVersion>1.0</appVersion>
               <vendor>UncharteD</vendor>
               <destination>target/dist</destination>
-              <input>target</input>
+              <input>${project.build.directory}/lib</input>
               <mainJar>documerge-pro-1.0-SNAPSHOT.jar</mainJar>
               <mainClass>com.documentgenerator.MainApp</mainClass>
               <javaOptions>
                 <option>-Dfile.encoding=UTF-8</option>
+                <option>--module-path</option>
+                <option>app</option>
+                <option>--add-modules</option>
+                <option>javafx.controls,javafx.fxml</option>
                 <option>-cp</option>
-                <option>documerge-pro-1.0-SNAPSHOT.jar;lib/*</option>
+                <option>app/documerge-pro-1.0-SNAPSHOT.jar;app/*</option>
               </javaOptions>
               <addModules>
                 <addModule>java.base</addModule>
                 <addModule>java.desktop</addModule>
                 <addModule>java.logging</addModule>
                 <addModule>java.net.http</addModule>
+                <addModule>java.scripting</addModule>
               </addModules>
               <winDirChooser>true</winDirChooser>
               <winMenu>true</winMenu>
@@ -70,24 +76,28 @@
             <artifactId>jpackage-maven-plugin</artifactId>
             <version>1.6.0</version>
             <configuration>
-              <name>DocuMerge Pro</name>
-              <executable>documerge-pro</executable>
+              <name>documerge-pro</name>
               <appVersion>1.0</appVersion>
               <vendor>UncharteD</vendor>
               <destination>target/dist</destination>
-              <input>target</input>
+              <input>${project.build.directory}/lib</input>
               <mainJar>documerge-pro-1.0-SNAPSHOT.jar</mainJar>
               <mainClass>com.documentgenerator.MainApp</mainClass>
               <javaOptions>
                 <option>-Dfile.encoding=UTF-8</option>
+                <option>--module-path</option>
+                <option>app</option>
+                <option>--add-modules</option>
+                <option>javafx.controls,javafx.fxml</option>
                 <option>-cp</option>
-                <option>documerge-pro-1.0-SNAPSHOT.jar:lib/*</option>
+                <option>app/documerge-pro-1.0-SNAPSHOT.jar:app/*</option>
               </javaOptions>
               <addModules>
                 <addModule>java.base</addModule>
                 <addModule>java.desktop</addModule>
                 <addModule>java.logging</addModule>
                 <addModule>java.net.http</addModule>
+                <addModule>java.scripting</addModule>
               </addModules>
               <linuxPackageName>documerge-pro</linuxPackageName>
               <linuxDebMaintainer>ayushupa29@gmail.com</linuxDebMaintainer>
@@ -115,19 +125,24 @@
               <appVersion>1.0</appVersion>
               <vendor>UncharteD</vendor>
               <destination>target/dist</destination>
-              <input>target</input>
+              <input>${project.build.directory}/lib</input>
               <mainJar>documerge-pro-1.0-SNAPSHOT.jar</mainJar>
               <mainClass>com.documentgenerator.MainApp</mainClass>
               <javaOptions>
                 <option>-Dfile.encoding=UTF-8</option>
+                <option>--module-path</option>
+                <option>app</option>
+                <option>--add-modules</option>
+                <option>javafx.controls,javafx.fxml</option>
                 <option>-cp</option>
-                <option>documerge-pro-1.0-SNAPSHOT.jar:lib/*</option>
+                <option>app/documerge-pro-1.0-SNAPSHOT.jar:app/*</option>
               </javaOptions>
               <addModules>
                 <addModule>java.base</addModule>
                 <addModule>java.desktop</addModule>
                 <addModule>java.logging</addModule>
                 <addModule>java.net.http</addModule>
+                <addModule>java.scripting</addModule>
               </addModules>
               <macPackageIdentifier>com.documentgenerator.documerge</macPackageIdentifier>
               <macPackageName>DocuMerge Pro</macPackageName>
@@ -138,6 +153,7 @@
         </plugins>
       </build>
     </profile>
+
   </profiles>
 
   <dependencies>
@@ -196,6 +212,28 @@
 
   <build>
     <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <mkdir dir="${project.build.directory}/lib"/>
+                <copy file="${project.build.directory}/${project.build.finalName}.jar"
+                      todir="${project.build.directory}/lib" />
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
       <plugin>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-maven-plugin</artifactId>
@@ -203,6 +241,7 @@
           <mainClass>com.documentgenerator.MainApp</mainClass>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -217,6 +256,7 @@
           </archive>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -235,6 +275,7 @@
           </execution>
         </executions>
       </plugin>
+
     </plugins>
   </build>
 </project>
