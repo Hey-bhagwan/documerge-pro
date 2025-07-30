@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
@@ -10,7 +10,6 @@
   <version>1.0-SNAPSHOT</version>
   <name>DocuMerge Pro</name>
   <description>Professional document generation from Excel/Google Sheets data</description>
-
   <url>https://github.com/Hey-bhagwan/documerge-pro</url>
 
   <properties>
@@ -32,6 +31,7 @@
             <version>1.6.0</version>
             <configuration>
               <name>DocuMerge Pro</name>
+              <executable>documerge-pro</executable>
               <appVersion>1.0</appVersion>
               <vendor>UncharteD</vendor>
               <destination>target/dist</destination>
@@ -40,18 +40,15 @@
               <mainClass>com.documentgenerator.MainApp</mainClass>
               <javaOptions>
                 <option>-Dfile.encoding=UTF-8</option>
-                <!-- ✅ CONSISTENT: Use classpath approach for all platforms -->
                 <option>-cp</option>
-                <option>documerge-pro-1.0-SNAPSHOT.jar:lib/*</option>
+                <option>documerge-pro-1.0-SNAPSHOT.jar;lib/*</option>
               </javaOptions>
-              <!-- ✅ CORRECTED: No JavaFX modules for non-modular approach -->
               <addModules>
                 <addModule>java.base</addModule>
                 <addModule>java.desktop</addModule>
                 <addModule>java.logging</addModule>
                 <addModule>java.net.http</addModule>
               </addModules>
-              <!-- Windows-specific options -->
               <winDirChooser>true</winDirChooser>
               <winMenu>true</winMenu>
               <winShortcut>true</winShortcut>
@@ -73,7 +70,8 @@
             <artifactId>jpackage-maven-plugin</artifactId>
             <version>1.6.0</version>
             <configuration>
-              <name>documerge-pro</name>
+              <name>DocuMerge Pro</name>
+              <executable>documerge-pro</executable>
               <appVersion>1.0</appVersion>
               <vendor>UncharteD</vendor>
               <destination>target/dist</destination>
@@ -82,18 +80,15 @@
               <mainClass>com.documentgenerator.MainApp</mainClass>
               <javaOptions>
                 <option>-Dfile.encoding=UTF-8</option>
-                <!-- ✅ CONSISTENT: Use classpath approach -->
                 <option>-cp</option>
                 <option>documerge-pro-1.0-SNAPSHOT.jar:lib/*</option>
               </javaOptions>
-              <!-- ✅ CONSISTENT: No JavaFX modules -->
               <addModules>
                 <addModule>java.base</addModule>
                 <addModule>java.desktop</addModule>
                 <addModule>java.logging</addModule>
                 <addModule>java.net.http</addModule>
               </addModules>
-              <!-- ✅ ADDED: Missing Linux-specific options -->
               <linuxPackageName>documerge-pro</linuxPackageName>
               <linuxDebMaintainer>ayushupa29@gmail.com</linuxDebMaintainer>
               <linuxMenuGroup>Office</linuxMenuGroup>
@@ -116,6 +111,7 @@
             <version>1.6.0</version>
             <configuration>
               <name>DocuMerge Pro</name>
+              <executable>documerge-pro</executable>
               <appVersion>1.0</appVersion>
               <vendor>UncharteD</vendor>
               <destination>target/dist</destination>
@@ -124,18 +120,15 @@
               <mainClass>com.documentgenerator.MainApp</mainClass>
               <javaOptions>
                 <option>-Dfile.encoding=UTF-8</option>
-                <!-- ✅ CONSISTENT: Use classpath approach -->
                 <option>-cp</option>
                 <option>documerge-pro-1.0-SNAPSHOT.jar:lib/*</option>
               </javaOptions>
-              <!-- ✅ CORRECTED: No JavaFX modules -->
               <addModules>
                 <addModule>java.base</addModule>
                 <addModule>java.desktop</addModule>
                 <addModule>java.logging</addModule>
                 <addModule>java.net.http</addModule>
               </addModules>
-              <!-- macOS-specific options -->
               <macPackageIdentifier>com.documentgenerator.documerge</macPackageIdentifier>
               <macPackageName>DocuMerge Pro</macPackageName>
               <macSign>false</macSign>
@@ -147,16 +140,13 @@
     </profile>
   </profiles>
 
-  <!-- Rest of your configuration remains the same -->
   <dependencies>
-    <!-- Your existing dependencies are perfect -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
       <version>5.10.1</version>
       <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi</artifactId>
@@ -172,7 +162,6 @@
       <artifactId>poi-scratchpad</artifactId>
       <version>5.2.4</version>
     </dependency>
-
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
@@ -183,13 +172,11 @@
       <artifactId>javafx-fxml</artifactId>
       <version>${javafx.version}</version>
     </dependency>
-
     <dependency>
       <groupId>com.google.apis</groupId>
       <artifactId>google-api-services-sheets</artifactId>
       <version>v4-rev20220927-2.0.0</version>
     </dependency>
-
     <dependency>
       <groupId>com.google.auth</groupId>
       <artifactId>google-auth-library-oauth2-http</artifactId>
@@ -208,13 +195,7 @@
   </dependencies>
 
   <build>
-    <!-- Your build configuration is good -->
-    <pluginManagement>
-      <!-- Your existing pluginManagement is perfect -->
-    </pluginManagement>
-
     <plugins>
-      <!-- Your existing plugins are correct -->
       <plugin>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-maven-plugin</artifactId>
@@ -222,7 +203,6 @@
           <mainClass>com.documentgenerator.MainApp</mainClass>
         </configuration>
       </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -237,7 +217,6 @@
           </archive>
         </configuration>
       </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -255,36 +234,6 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
-
-      <!-- ✅ CORRECTED: Default configuration matches working approach -->
-      <plugin>
-        <groupId>org.panteleyev</groupId>
-        <artifactId>jpackage-maven-plugin</artifactId>
-        <version>1.6.0</version>
-        <configuration>
-          <name>DocuMerge Pro</name>
-          <appVersion>1.0</appVersion>
-          <vendor>UncharteD</vendor>
-          <destination>target/dist</destination>
-          <input>target</input>
-          <mainJar>documerge-pro-1.0-SNAPSHOT.jar</mainJar>
-          <mainClass>com.documentgenerator.MainApp</mainClass>
-          <javaOptions>
-            <option>-Dfile.encoding=UTF-8</option>
-            <!-- ✅ CONSISTENT: Classpath approach -->
-            <option>-cp</option>
-            <option>documerge-pro-1.0-SNAPSHOT.jar:lib/*</option>
-          </javaOptions>
-          <!-- ✅ CORRECTED: Only JDK modules, no JavaFX modules -->
-          <addModules>
-            <addModule>java.base</addModule>
-            <addModule>java.desktop</addModule>
-            <addModule>java.logging</addModule>
-            <addModule>java.net.http</addModule>
-          </addModules>
-          <icon>src/main/resources/icon-64.png</icon>
-        </configuration>
       </plugin>
     </plugins>
   </build>
